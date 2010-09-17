@@ -1,0 +1,6 @@
+core = "6.x"
+name = "Webiz Campaign"
+package = "Webiz!"
+project = "webiz_campaign"
+version = "6.x-1.0"
+description = "provide Webiz campaign form"

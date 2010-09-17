@@ -1,0 +1,47 @@
+<?
+function webiz_campaign_schema() {
+	$schema['webiz_campaign_pincode'] = array(
+    'description' => t("Stores Campaign for user."),
+    'fields' => array(
+      'pincode' => array(
+			  'description' => t("pin code"),
+		    'type' => 'varchar',
+		    'length' => 32,
+		    'not null' => TRUE,
+		  ),
+      'registered' => array(
+        'description' => t("boolean"),
+        'type' => 'int',
+        'size' => 'tiny',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+		),
+    'primary key' => array('pincode'),
+  );
+	
+  return $schema;
+}
+
+/**
+ * Implementation of hook_install().
+ */
+function webiz_campaign_install() {
+  // Create tables.
+  drupal_install_schema('webiz_campaign');
+	$handle = @fopen(drupal_get_path('module', 'webiz_campaign') . '/pincode.sql', "r"); 
+	if ($handle) { 
+	   while (!feof($handle)) { 
+	       $query = fgets($handle, 4096); 
+		   db_query($query);
+	   } 
+	   fclose($handle); 
+	}
+
+  // Set the weight to 11, making it heavier than Views.
+ // db_query("UPDATE {system} SET weight = 11 WHERE name = 'pixie_server'");
+}
+function webiz_campaign_uninstall() {
+  // Remove tables.
+   drupal_uninstall_schema('webiz_campaign');
+}
